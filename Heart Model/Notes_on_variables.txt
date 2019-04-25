@@ -1,0 +1,29 @@
+Reference on A05: 
+https://uva.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=262a8419-e9e4-4fdd-8a9d-a9840128cec9
+https://uva.hosted.panopto.com/Panopto/Pages/Viewer.aspx?id=db6cd1e3-0a18-4f0e-8718-a98c00e19111
+---
+
+Notes:
+---
+Atrium depolarizes, then there is a conduction delay which then reaches the ventricle which then depolarizes.
+Depolarize, conduction, ventricle polarizes
+
+For timed automata, you need: {clock, resets, and action (messages)}
+
+**In the timed automata, the timers are running in parallel; therefore, during fuzzing we need to make sure that the secondary (ventricle) trigger is sufficiently longer than the atrium one
+
+
+
+Variables:
+---
+Act_node (activate node signal)
+Act_path (activate path signal)
+
+Rest_def (rest timer)
+ERP_def 
+Tcond_def (value for the conduction delay count down, after which the path signals)
+RRP_def 
+
+LRI_def (VA <= LRI-AVI)
+	AVI is equal to an a-to-v timer
+	LRI is essentially the V to V timer (see treat the symptoms 2: Oct 18)
