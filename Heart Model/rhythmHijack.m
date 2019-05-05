@@ -7,7 +7,6 @@ numExperiments= length(Cf_Sweep);
 
 Cf_Sweep= Cf_Sweep(randperm(length(Cf_Sweep)));
 
-%data=[];
 for i= numExperiments:-1:1
     in(i)=Simulink.SimulationInput('NPNwithVVI'); %name of project
     in(i)=in(i).setBlockParameter('NPNwithVVI/NodeLongERP1/Rest_def','Value',num2str(Cf_Sweep(i)));
@@ -21,17 +20,8 @@ end
 
 out= parsim(in);
 
-NodeLongERP = out(1).logsout{1}.Values;
-NodeLongERP1 = out(1).logsout{2}.Values;
+SA_series = out(1).logsout{1}.Values; 
+VA_series = out(1).logsout{2}.Values;
+VPace_series = out(1).logsout{3}.Values; 
 
-%NodeLongERP.data
-
-% variable1 = ( beats in interval / interval length )
-% convert variable1 to beats/minute
-
-%for i=out
-%  i.logsout
-%end
-
-%Simulink.sdi.view;
 
