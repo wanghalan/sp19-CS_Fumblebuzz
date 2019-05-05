@@ -26,7 +26,7 @@ out= parsim(in);
 % A2V delay
 a2v = zeros(numExperiments, simulation_time);
 
-for i=1: numExperiments
+for i=1: 2
     Vnode = out(i).logsout{1}.Values.Data;
     SAnode = out(i).logsout{2}.Values.Data;
     
@@ -62,27 +62,15 @@ for i=1: numExperiments
         
     end
     
-%     plot(1:simulation_time, a2v(i,:), '-o');
-%     axis([0, simulation_time, -0.2,1.2]);
-%     xlabel('Simulation time');
-%     ylabel('Violation');
-%     title(['Violations of A2V Delay']);
-%     drawnow;
+    plot(1:simulation_time, a2v(i,:), '--d');
+    axis([0, simulation_time, 0,2]);
+    xlabel('episodes');
+             ylabel('Collisions');
+             axis([0,N_max,0,25]);
+             title(['Number of collisions in iteration: ' num2str(iterations)])
 
 end
 
-figure(1)
-hold on
-
-for i=1:numExperiments
-plot(1:simulation_time, a2v(i,:), '-o', 'DisplayName', ['experiment ' num2str(i)]);
-end
-legend('show');
-axis([0, simulation_time, -0.2,1.2]);
-xlabel('Simulation time');
-ylabel('Violation');
-title(['Violations of A2V Delay']);
-drawnow;
 %NodeLongERP.data
 
 % variable1 = ( beats in interval / interval length )
