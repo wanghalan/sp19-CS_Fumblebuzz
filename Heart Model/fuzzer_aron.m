@@ -4,7 +4,7 @@
 
 clear
 
-numExperiments = 5;
+numExperiments = 500;
 
 %1000-(460+200+100) = 340
 %600-(250+120+50) = 280
@@ -19,11 +19,11 @@ Tcond_Sweep= Tcond_Sweep(randperm(length(Tcond_Sweep)));
 RRP_Sweep= RRP_Sweep(randperm(length(RRP_Sweep)));
 
 for i= numExperiments:-1:1
-    in(i)=Simulink.SimulationInput('NPNwithVVI'); %name of project
-    in(i)=in(i).setBlockParameter('NPNwithVVI/NodeLongERP1/Rest_def','Value',num2str(Rest_Sweep(i)));
-    in(i)=in(i).setBlockParameter('NPNwithVVI/NodeLongERP1/ERP_def','Value',num2str(ERP_Sweep(i)));
-    in(i)=in(i).setBlockParameter('NPNwithVVI/AtoV Path/Tcond_def','Value',num2str(Tcond_Sweep(i)));
-    in(i)=in(i).setBlockParameter('NPNwithVVI/NodeLongERP1/RRP_def','Value',num2str(RRP_Sweep(i)));
+    in(i)=Simulink.SimulationInput('NPNwithVVI_2018a'); %name of project
+    in(i)=in(i).setBlockParameter('NPNwithVVI_2018a/NodeLongERP1/Rest_def','Value',num2str(Rest_Sweep(i)));
+    in(i)=in(i).setBlockParameter('NPNwithVVI_2018a/NodeLongERP1/ERP_def','Value',num2str(ERP_Sweep(i)));
+    in(i)=in(i).setBlockParameter('NPNwithVVI_2018a/AtoV Path/Tcond_def','Value',num2str(Tcond_Sweep(i)));
+    in(i)=in(i).setBlockParameter('NPNwithVVI_2018a/NodeLongERP1/RRP_def','Value',num2str(RRP_Sweep(i)));
 end
 
 out= parsim(in);
@@ -44,9 +44,9 @@ map = [
 %0.5 0 0;
 ];
 set(groot,'defaultAxesColorOrder',map);
-lower_bound = 50;
-upper_bound = 100;
-graph = 1; %1 to produce graphs, 0 to not produce graphs
+lower_bound = 60;
+upper_bound = 90;
+graph = 0; %1 to produce graphs, 0 to not produce graphs
 for simulation=1:numExperiments
   NodeLongERP = out(simulation).logsout{1}.Values.data; % VA
   NodeLongERP1 = out(simulation).logsout{2}.Values.data; % SA
@@ -81,14 +81,16 @@ for simulation=1:numExperiments
       figure();
     end
     hold on
-    plot(1:length(bpmVA),bpmVA,'-')
-    plot([1 length(bpmVA)],[avg_bpmVA avg_bpmVA],'--')
-    plot(1:length(bpmSA),bpmSA,'-')
-    plot([1 length(bpmSA)],[avg_bpmSA avg_bpmSA],'--')
+    plot(1:length(bpmVA),bpmVA,'-', 'DisplayName', 'BPM VA node')
+    plot([1 length(bpmVA)],[avg_bpmVA avg_bpmVA],'--', 'DisplayName', 'Mean BPM VA node')
+    plot(1:length(bpmSA),bpmSA,'-', 'DisplayName', 'BPM SA node')
+    plot([1 length(bpmSA)],[avg_bpmSA avg_bpmSA],'--', 'DisplayName', 'Mean BPM SA node')
 
-    plot([1 length(bpmVA)],[lower_bound lower_bound],'-r')
-    plot([1 length(bpmVA)],[upper_bound upper_bound],'-r')
+    plot([1 length(bpmVA)],[lower_bound lower_bound],'-r', 'DisplayName', 'Upper Bound')
+    plot([1 length(bpmVA)],[upper_bound upper_bound],'-r', 'DisplayName', 'Lower Bound')
     axis([0 length(bpmVA)+2 lower_bound-10 upper_bound+10]);
+    ylabel('bpm');
+    xlabel('Simulation time');
     hold off
   end
 end

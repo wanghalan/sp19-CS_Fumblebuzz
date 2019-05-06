@@ -3,26 +3,32 @@
 %Accessing data: https://www.mathworks.com/matlabcentral/answers/384492-how-to-access-scope-data-when-running-model-with-sim-command
 simulation_time = 10000;
 numExperiments = 10;
-Cf_Sweep= linspace(1000,1200,100);
-Cf_Sweep2= linspace(1000,1200,100);
-Cf_Sweep= Cf_Sweep(randperm(length(Cf_Sweep)));
-Cf_Sweep2= Cf_Sweep2(randperm(length(Cf_Sweep2)));
+ERP_Sweep= linspace(250,460,numExperiments);
+Tcond_Sweep= linspace(120,200,numExperiments);
+RRP_Sweep= linspace(50,100,numExperiments);
+Rest_Sweep= linspace(280,340,numExperiments);
 
-% ERP, RRP, conduction, rest
+Rest_Sweep= Rest_Sweep(randperm(length(Rest_Sweep)));
+ERP_Sweep= ERP_Sweep(randperm(length(ERP_Sweep)));
+Tcond_Sweep= Tcond_Sweep(randperm(length(Tcond_Sweep)));
+RRP_Sweep= RRP_Sweep(randperm(length(RRP_Sweep)));
 
-%data=[];
 for i= numExperiments:-1:1
-    in(i)=Simulink.SimulationInput('NPNwithVVI'); %name of project
-    in(i)=in(i).setBlockParameter('NPNwithVVI/NodeLongERP1/Rest_def','Value',num2str(Cf_Sweep(i)));
-    in(i)=in(i).setBlockParameter('NPNwithVVI/NodeLongERP1/ERP_def','Value',num2str(Cf_Sweep2(i)));
-    %in(i)=in(i).setBlockParameter('NPNwithVVI.slx/NodeLongERP1/ERP_def','MaskValues',{num2str(Cf_Sweep2(i))});
-
+    in(i)=Simulink.SimulationInput('NPNwithVVI_2018a'); %name of project
+    in(i)=in(i).setBlockParameter('NPNwithVVI_2018a/NodeLongERP1/Rest_def','Value',num2str(Rest_Sweep(i)));
+    in(i)=in(i).setBlockParameter('NPNwithVVI_2018a/NodeLongERP1/ERP_def','Value',num2str(ERP_Sweep(i)));
+    in(i)=in(i).setBlockParameter('NPNwithVVI_2018a/AtoV Path/Tcond_def','Value',num2str(Tcond_Sweep(i)));
+    in(i)=in(i).setBlockParameter('NPNwithVVI_2018a/NodeLongERP1/RRP_def','Value',num2str(RRP_Sweep(i)));
 end
 
 out= parsim(in);
 
 % A2V delay
 a2v = zeros(numExperiments, simulation_time);
+count = 0;
+graph =1;
+maxdelta = 0; 
+mindelta = 2000;
 
 for i=1: numExperiments
     Vnode = out(i).logsout{1}.Values.Data;
@@ -44,17 +50,26 @@ for i=1: numExperiments
             cur_v = index;
 
             delta = cur_v - cur_s;
-
-            if delta > 300 || delta < 5
+            if mindelta > delta
+                mindelta = delta;
+            end
+            
+            if maxdelta < delta
+                maxdelta = delta;
+            end
+            
+            if delta > 200 || delta < 5
                 cur_flag = 1;
                 cur_s=0;
+                count = count+1;
             else
                 cur_s = 0;
                 cur_v = 0;
             end
+            a2v(i, index) = delta;
         end
 
-        a2v(i, index) = cur_flag;
+
         index = index + 1;
 
 
@@ -69,25 +84,26 @@ for i=1: numExperiments
 
 end
 
-figure(1)
-hold on
+count
 
-for i=1:numExperiments
-plot(1:simulation_time, a2v(i,:), '-o', 'DisplayName', ['experiment ' num2str(i)]);
+maxdelta
+
+mindelta
+
+if graph
+    figure(1)
+    hold on
+
+    for i=1:numExperiments
+    plot(1:simulation_time, a2v(i,:), 'o', 'DisplayName', ['experiment ' num2str(i)]);
+    end
+    legend('show');
+    plot(1:simulation_time, ones(1, simulation_time)*50, '--r', 'DisplayName', 'Lower Bound');
+    plot(1:simulation_time, ones(1, simulation_time)*200, '--r', 'DisplayName', 'Lower Bound');
+
+    axis([0, simulation_time, 10,350]);
+    xlabel('Simulation time');
+    ylabel('Violation');
+    title(['Violations of A2V Delay']);
+    drawnow;
 end
-legend('show');
-axis([0, simulation_time, -0.2,1.2]);
-xlabel('Simulation time');
-ylabel('Violation');
-title(['Violations of A2V Delay']);
-drawnow;
-%NodeLongERP.data
-
-% variable1 = ( beats in interval / interval length )
-% convert variable1 to beats/minute
-
-%for i=out
-%  i.logsout
-%end
-
-%Simulink.sdi.view;
