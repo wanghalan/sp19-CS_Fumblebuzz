@@ -24,4 +24,14 @@ SA_series = out(1).logsout{1}.Values;
 VA_series = out(1).logsout{2}.Values;
 VPace_series = out(1).logsout{3}.Values; 
 
+%One can tell if a rhythm hijack has occured, if between two VPace signals,
+%there are more than on SA signal. A signal is a contiguous set of 1s, and
+%the space is the zero in between.
+
+
+%So 1) is to get the windows between VA pulses, and 2)is to get the number
+%of signals between each pulse, and 3) is to calculate the number of
+%contiguous pulses within each window
+
+
 
