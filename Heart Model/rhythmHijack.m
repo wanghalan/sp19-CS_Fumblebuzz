@@ -6,8 +6,6 @@ clear
 
 numExperiments = 100;
 
-%1000-(460+200+100) = 340
-%600-(250+120+50) = 280
 %normal values
 % ERP_Sweep= linspace(250,460,numExperiments);
 % Tcond_Sweep= linspace(120,200,numExperiments);
