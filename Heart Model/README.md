@@ -23,3 +23,11 @@
 		3. Choose to comment whichever section you want, labeled normal, 20%, and 100% in the code
 		4. Move the exported CSV into "rhythm_hijack/"
 		5. Run "python signal_checker.py", changing the output identifier on line 122
+	- Heartrate detection:
+		1. Open the NPNwithVVI.slx in Simulink
+                2. Run the script brachy-tachy.m in Matlab
+                3. The variable graph can be set to 0 for no graphs and 1 for graphs
+	- AtoV detection:
+		1. Open the NPNwithVVI.slx in Simulink
+                2. Run the script a2vsense.m in Matlab
+                3. The variable graph can be set to 0 for no graphs and 1 for graphs
