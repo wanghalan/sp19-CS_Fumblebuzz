@@ -52,7 +52,13 @@ for i=1: numExperiments
             cur_v = index;
 
             delta = cur_v - cur_s;
+            if mindelta > delta
+                mindelta = delta;
+            end
 
+            if maxdelta < delta
+                maxdelta = delta;
+            end
             if delta > 200 || delta < 50
                 cur_flag = 1;
                 cur_s=0;
