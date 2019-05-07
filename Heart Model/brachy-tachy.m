@@ -40,8 +40,6 @@ map = [
 0.5 0 0.5;
 0 1 1;
 0 0.5 0.5;
-%1 0 0;
-%0.5 0 0;
 ];
 set(groot,'defaultAxesColorOrder',map);
 lower_bound = 60;

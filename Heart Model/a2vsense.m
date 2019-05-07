@@ -3,6 +3,7 @@
 %Accessing data: https://www.mathworks.com/matlabcentral/answers/384492-how-to-access-scope-data-when-running-model-with-sim-command
 simulation_time = 10000;
 numExperiments = 10;
+
 ERP_Sweep= linspace(250,460,numExperiments);
 Tcond_Sweep= linspace(120,200,numExperiments);
 RRP_Sweep= linspace(50,100,numExperiments);
@@ -19,6 +20,7 @@ for i= numExperiments:-1:1
     in(i)=in(i).setBlockParameter('NPNwithVVI_2018a/NodeLongERP1/ERP_def','Value',num2str(ERP_Sweep(i)));
     in(i)=in(i).setBlockParameter('NPNwithVVI_2018a/AtoV Path/Tcond_def','Value',num2str(Tcond_Sweep(i)));
     in(i)=in(i).setBlockParameter('NPNwithVVI_2018a/NodeLongERP1/RRP_def','Value',num2str(RRP_Sweep(i)));
+
 end
 
 out= parsim(in);
@@ -50,15 +52,8 @@ for i=1: numExperiments
             cur_v = index;
 
             delta = cur_v - cur_s;
-            if mindelta > delta
-                mindelta = delta;
-            end
-            
-            if maxdelta < delta
-                maxdelta = delta;
-            end
-            
-            if delta > 200 || delta < 5
+
+            if delta > 200 || delta < 50
                 cur_flag = 1;
                 cur_s=0;
                 count = count+1;
@@ -74,13 +69,6 @@ for i=1: numExperiments
 
 
     end
-
-%     plot(1:simulation_time, a2v(i,:), '-o');
-%     axis([0, simulation_time, -0.2,1.2]);
-%     xlabel('Simulation time');
-%     ylabel('Violation');
-%     title(['Violations of A2V Delay']);
-%     drawnow;
 
 end
 
@@ -107,3 +95,12 @@ if graph
     title(['Violations of A2V Delay']);
     drawnow;
 end
+
+legend('show');
+axis([0, simulation_time, -0.2,1.2]);
+xlabel('Simulation time');
+ylabel('Violation');
+title(['Violations of A2V Delay']);
+drawnow;
+
+%Simulink.sdi.view;

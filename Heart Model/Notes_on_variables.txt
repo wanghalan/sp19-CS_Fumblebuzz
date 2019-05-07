@@ -26,4 +26,4 @@ RRP_def
 
 LRI_def (VA <= LRI-AVI)
 	AVI is equal to an a-to-v timer
-	LRI is essentially the V to V timer (see treat the symptoms 2: Oct 18)
+	LRI is essentially the V to V timer (see treat the symptoms 2: Oct 1)8
