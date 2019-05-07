@@ -3,8 +3,8 @@
 %Accessing data: https://www.mathworks.com/matlabcentral/answers/384492-how-to-access-scope-data-when-running-model-with-sim-command
 simulation_time = 10000;
 numExperiments = 10;
-Cf_Sweep= linspace(1000,1200,100);
-Cf_Sweep2= linspace(1000,1200,100);
+Cf_Sweep= linspace(280,340,100);
+Cf_Sweep2= linspace(250,340,100);
 Cf_Sweep= Cf_Sweep(randperm(length(Cf_Sweep)));
 Cf_Sweep2= Cf_Sweep2(randperm(length(Cf_Sweep2)));
 
@@ -41,7 +41,7 @@ for i=1: numExperiments
 
             delta = cur_v - cur_s;
 
-            if delta > 300 || delta < 5
+            if delta > 200 || delta < 50
                 cur_flag = 1;
                 cur_s=0;
             else
