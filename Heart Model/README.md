@@ -2,7 +2,8 @@
 
 ### Simulink Heart Model
 ---
-Folder Description
+#Folder Description
+---
 	- references --> [CPS course reference material](https://linklab-uva.github.io/modeling_cps/)
 	- NPNwithVVI.slx --> Heart model with pace maker attached to the VA node
 	- rhythmHijack.m --> Matlab code that extracts VA signal and VPace signals and outputs them to CSVs
@@ -12,7 +13,8 @@ Folder Description
 		- 20.json --> fuzzing with +-20% ranges result
 		- 100.json --> fuzzing with +-100% ranges result
 
-To Run:
+#To Run:
+---
 	- Rhythm hijack code by Alan Wang:
 		1. Double click and open NPNwithVVI.slx
 		2. Open rhythmHijack.m
