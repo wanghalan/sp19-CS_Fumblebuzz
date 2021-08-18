@@ -1,4 +1,4 @@
-# 190409_Fumblebuzz
+# [Final Report](https://github.com/yaoeh/SP19_CS_Fumblebuzz/blob/master/FumbleBuzz_Final_Project_Report.pdf)
 
 ### Simulink Models
 ---
